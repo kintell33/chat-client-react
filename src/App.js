@@ -9,6 +9,7 @@ function App() {
   const [clients, setClients] = useState([]);
   const [selectedRoom, setSelectedRoom] = useState(null);
   const [messages, setMessages] = useState([]);
+  const [typingData, setTypingData] = useState("");
 
   useEffect(() => {
     socket = socketIOClient(ENDPOINT, { query: { rol: "admin" } });
@@ -19,7 +20,7 @@ function App() {
     });
 
     socket.on("get messages", (data) => {
-      setMessages(data); 
+      setMessages(data);
       console.log(messages);
     });
 
@@ -29,12 +30,26 @@ function App() {
       });
       console.log(messages);
     });
-  }, [selectedRoom, messages, setMessages]);
+
+    socket.on("typing", function (msg) {
+      if (msg.status) {
+        setTypingData(`${msg.username} esta escribiendo...`);
+      } else setTypingData("");
+    });
+  }, [selectedRoom, messages, setMessages, setTypingData]);
 
   const handleClickRoom = (room) => {
     socket.emit("leave", { room: selectedRoom });
     setSelectedRoom(room);
     socket.emit("join", { room: room });
+  };
+
+  const handleSendMessage = (message) => {
+    socket.emit("chat message", {
+      username: "Admin",
+      message: message,
+      room: selectedRoom,
+    });
   };
 
   return (
@@ -58,8 +73,9 @@ function App() {
       <div className="chat">
         {!selectedRoom || (
           <Chat
-            typing={"Una persona esta escribiendo..."}
+            typing={typingData}
             messages={messages}
+            onSendMessage={handleSendMessage}
           />
         )}
       </div>

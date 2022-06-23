@@ -16,9 +16,28 @@ export default function Chat({ onSendMessage, messages, typing }) {
         </ul>
       </div>
       <div className="writeArea borders">
+        <input
+          type="text"
+          value={text}
+          onChange={(data) => {
+            setText(data.target.value);
+          }}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              onSendMessage(text);
+              setText("");
+            }
+          }}
+        ></input>
+        <button
+          onClick={() => {
+            onSendMessage(text);
+            setText("");
+          }}
+        >
+          Enviar
+        </button>
         <div className="typingPlace borders">{typing}</div>
-        <input type="text" value={text} onChange={(data) => {setText(data)}}></input>
-        <button onClick={() => {onSendMessage(text)}}>Enviar</button>
       </div>
     </div>
   );
