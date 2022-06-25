@@ -12,7 +12,7 @@ body {
   width: 20%;
   height: 98vh;
   border-radius: 5px;
-  background-color: #4E9F3D;
+  background-color: #919191;
   display: flex;
   flex-direction: column;
   gap:5px;
@@ -23,7 +23,7 @@ body {
   width: 80%;
   height: 98vh;
   border-radius: 5px;
-  background-color: #D8E9A8;
+  background-color: #b1b1b1;
 }
 
 .title {
@@ -35,7 +35,7 @@ body {
 
 .sala {
   margin:5px;
-  background-color: #1E5128;
+  background-color: #202020;
   padding: 5px;
   border-radius: 5px;
   color: white;
