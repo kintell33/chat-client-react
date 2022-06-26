@@ -1,8 +1,12 @@
 import { useState } from "react";
 import "./Chat.css";
 
-export default function Chat({ onSendMessage, messages, typing }) {
+export default function Chat({ onSendMessage, messages, typing, onTyping }) {
   const [text, setText] = useState("");
+
+  const handleOnTyping = (status) => {
+    onTyping(status);
+  }
 
   return (
     <div>
@@ -20,12 +24,14 @@ export default function Chat({ onSendMessage, messages, typing }) {
           type="text"
           value={text}
           onChange={(data) => {
+            handleOnTyping(true);
             setText(data.target.value);
           }}
           onKeyDown={(e) => {
             if (e.key === "Enter") {
               onSendMessage(text);
               setText("");
+              handleOnTyping(false);
             }
           }}
         ></input>

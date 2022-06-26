@@ -28,6 +28,7 @@
 
 .typingPlace {
   font-weight: 500;
+  min-height: 35px;
 }
 
 input {

@@ -12,7 +12,6 @@ function Dashboard() {
   const socket = useRef(socketIOClient(ENDPOINT, { query: { rol: "admin" } }));
 
   useEffect(() => {
-    console.log("use effect");
     socket.current.emit("get clients");
 
     socket.current.on("get clients", (data) => {
@@ -50,6 +49,14 @@ function Dashboard() {
     });
   };
 
+  const handleOnTyping = (status) => {
+    socket.current.emit("typing", {
+        username: "Admin",
+        status: status,
+        room: selectedRoom
+      });
+  }
+
   return (
     <div className="container">
       <div className="rooms">
@@ -74,6 +81,7 @@ function Dashboard() {
             typing={typingData}
             messages={messages}
             onSendMessage={handleSendMessage}
+            onTyping={handleOnTyping}
           />
         )}
       </div>
