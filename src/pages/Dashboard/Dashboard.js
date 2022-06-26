@@ -1,7 +1,7 @@
 import "./Dashboard.css";
 import React, { useState, useEffect, useRef } from "react";
 import socketIOClient from "socket.io-client";
-import Chat from '../../components/Chat'
+import Chat from "../../components/Chat";
 const ENDPOINT = "http://localhost:3001";
 
 function Dashboard() {
@@ -16,6 +16,7 @@ function Dashboard() {
 
     socket.current.on("get clients", (data) => {
       setClients(data.filter((x) => x.user !== "Admin"));
+      console.log(data);
     });
 
     socket.current.on("get messages", (data) => {
@@ -33,6 +34,7 @@ function Dashboard() {
         setTypingData(`${msg.username} esta escribiendo...`);
       } else setTypingData("");
     });
+
   }, []);
 
   const handleClickRoom = (room) => {
@@ -51,11 +53,11 @@ function Dashboard() {
 
   const handleOnTyping = (status) => {
     socket.current.emit("typing", {
-        username: "Admin",
-        status: status,
-        room: selectedRoom
-      });
-  }
+      username: "Admin",
+      status: status,
+      room: selectedRoom,
+    });
+  };
 
   return (
     <div className="container">
@@ -69,6 +71,7 @@ function Dashboard() {
               }}
               key={index}
               className="sala"
+              style={{backgroundColor:(item.read ? '#202020' : '#2d7451')}}
             >
               Sala {item.room}
             </div>
