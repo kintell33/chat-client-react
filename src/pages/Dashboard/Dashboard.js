@@ -2,7 +2,7 @@ import "./Dashboard.css";
 import React, { useState, useEffect, useRef } from "react";
 import socketIOClient from "socket.io-client";
 import Chat from "../../components/Chat";
-const ENDPOINT = "http://localhost:3001";
+const ENDPOINT = process.env.REACT_APP_BACKEND_URL;
 
 function Dashboard() {
   const [clients, setClients] = useState([]);
